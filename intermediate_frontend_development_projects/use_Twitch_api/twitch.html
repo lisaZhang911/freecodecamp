@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <style>
+    body,html {
+      background: #edf0e8;
+    }
+    #wrap{
+      background: #5b5557;
+      width: 60%;
+      margin: 5% auto;
+      text-align: center;
+      padding: 10px 0;
+    }
+    #wrap .selectLabel label{
+      display: inline-block;
+      width: 50px;
+      border-radius: 4px;
+      border: 1px solid #5c5457;
+      text-align: center;
+      background: #fff;
+      cursor: pointer;
+    }
+    #wrap .selectLabel label.active{
+      background: #93a6bf
+    }
+  </style>
+  <body>
+    <div class="" id="wrap">
+      <div class="selectLabel">
+        <label class="active">all</label>
+        <label>online</label>
+        <label>offline</label>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        getChannelInfo();
+        $(".selectLabel label").click(function(){
+          $(".selectLabel label").removeClass("active");
+          $(this).addClass("active")
+        })
+      });
+
+      var channels = ["freecodecamp","test_channel","ESL_SC2"];
+
+      function makeURL(type, name){
+        return 'https://wind-bow.gomix.me/twitch-api/'+type+'/'+name+'?callback=?';
+      }
+
+      function getChannelInfo(){
+        channels.forEach(function(channel){
+          $.getJSON(makeURL("streams", channel), function(data){
+            console.log(data)
+          })
+        })
+      }
+    </script>
+  </body>
+</html>
