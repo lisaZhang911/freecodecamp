@@ -5,30 +5,36 @@
     <hr/>
     <h2 class="todayTitle">今天天气</h2>
     <ul class="todayList">
-      <li>温度:</li>
-      <li>湿度：</li>
-      <li>天气情况：</li>
-      <li>风力：</li>
-      <li>穿衣建议：</li>
-      <li>uv指数：</li>
-      <li>洗车指数：</li>
-      <li>旅游指数：</li>
-      <li>运动指数：</li>
+      <li><b>温度：</b>{{getTodayWeather.temperature}}</li>
+      <li><b>湿度：</b>{{getTodayWeather.humidity}}</li>
+      <li><b>天气情况：</b>{{getTodayWeather.wind}}</li>
+      <li><b>风力：</b>{{getTodayWeather.wind}}</li>
+      <li><b>穿衣建议：</b>{{getTodayWeather.dressing_advice}}</li>
+      <li><b>uv指数：</b>{{getTodayWeather.uv_index}}</li>
+      <li><b>洗车指数：</b>{{getTodayWeather.wash_index}}</li>
+      <li><b>旅游指数：</b>{{getTodayWeather.travel_index}}</li>
+      <li><b>运动指数：</b>{{getTodayWeather.exercise_index}}</li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'HelloWorld',
+  name: 'Weather',
   data () {
     return {
       cityName: '昆明'
     }
   },
+  computed: {
+    ...mapGetters([
+      'getTodayWeather'
+    ])
+  },
   mounted () {
-    //console.log('mm')
-    this.$store.dispatch('getWeather',{cityname:this.cityName})
+    this.$store.dispatch('getTodayWeather')
   }
 }
 </script>
@@ -51,12 +57,16 @@ export default {
   font-size: 22px;
 }
 #weather .todayList {
-  width: 55%;
+  width: 80%;
   margin: 0 auto
 }
 #weather li {
   display: block;
   text-align: left;
   margin-bottom: 3%
+}
+#weather li b {
+  width: 80px;
+  display: inline-block;
 }
 </style>

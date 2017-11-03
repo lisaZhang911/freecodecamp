@@ -1,11 +1,41 @@
 {
-		"future":[
+	"today":{
+			"temperature":"9℃~14℃",
+			"weather":"小雨",
+			"wind":"微风",
+			"week":"星期五",
+			"city":"昆明",
+			"date_y":"2017年11月03日",
+			"humidity":"64%",
+			"dressing_index":"较冷",
+			"dressing_advice":"建议着厚外套加毛衣等服装。年老体弱者宜着大衣、呢外套加羊毛衫。",
+			"uv_index":"最弱",
+			"comfort_index":"",
+			"wash_index":"不宜",
+			"travel_index":"较不宜",
+			"exercise_index":"较不宜"
+		},
+  "future": [
       {
-        "temperature":"7℃~16℃",
-        "weather":"小雨-中雨转小雨",
-        "wind":"微风",
-        "week":"星期四",
-        "date":"20171102"
-      },
-    ],
+				"temperature":"7℃~17℃",
+				"weather":"小雨转阴",
+				"wind":"微风",
+				"week":"星期六",
+				"date":"20171104"
+			},
+			{
+				"temperature":"8℃~18℃",
+				"weather":"多云",
+				"wind":"微风",
+				"week":"星期日",
+				"date":"20171105"
+			},
+			{
+				"temperature":"7℃~18℃",
+				"weather":"多云",
+				"wind":"微风",
+				"week":"星期一",
+				"date":"20171106"
+			}
+  ]
 }

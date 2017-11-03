@@ -1,10 +1,7 @@
 import Vue from 'vue'
-// import axios from 'axios'
-// import vueAxios from 'vue-axios'
-// Vue.use(axios,vueAxios)
 
-const getWeather = (cityName) => Vue.axios.get('/api/');
+const getTodayWeather = () => Vue.axios.get('/api/today');
 
 export default {
-  getWeather
+  getTodayWeather
 }
