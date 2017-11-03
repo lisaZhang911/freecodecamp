@@ -15,6 +15,15 @@
       <li><b>旅游指数：</b>{{getTodayWeather.travel_index}}</li>
       <li><b>运动指数：</b>{{getTodayWeather.exercise_index}}</li>
     </ul>
+    <hr/>
+    <h1 class="todayTitle">未来5天天气预报</h1>
+    <ul class="futureList">
+      <li v-for="item in getFutureWeather">
+        <h3>{{item.date}}</h3>
+        <h4>{{item.week}}</h4>
+        <p><span>{{item.weather}}</span><span>{{item.temperature}}</span></p>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -30,11 +39,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getTodayWeather'
+      'getTodayWeather',
+      'getFutureWeather'
     ])
   },
   mounted () {
-    this.$store.dispatch('getTodayWeather')
+    this.$store.dispatch('getTodayWeather');
+    this.$store.dispatch('getFutureWeather')
   }
 }
 </script>
@@ -56,17 +67,32 @@ export default {
 #weather .todayTitle{
   font-size: 22px;
 }
-#weather .todayList {
+#weather .todayList{
   width: 80%;
   margin: 0 auto
 }
-#weather li {
+#weather .todayList li {
   display: block;
   text-align: left;
   margin-bottom: 3%
 }
-#weather li b {
+#weather .todayList li b {
   width: 80px;
   display: inline-block;
+}
+#weather .futureList h3,
+#weather .futureList h4 {
+  font-weight: normal;
+}
+#weather .futureList h3{
+  font-size: 17px;
+  display: inline;
+}
+#weather .futureList h4 {
+  font-size: 16px;
+  display: inline;
+}
+#weather .futureList li {
+  margin: 0 10px 0 0
 }
 </style>
