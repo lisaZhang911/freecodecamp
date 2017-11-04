@@ -27,6 +27,45 @@
     #wrap .selectLabel label.active{
       background: #93a6bf
     }
+    #wrap .vedioList{
+      margin-top: 5%;
+      background: rgb(184,204,166);
+    }
+    #wrap .vedioList .OffLine{
+      background: rgb(74,94,130);
+      overflow: hidden;
+    }
+    #wrap .vedioList .OffLine .name a{
+      color: #b8cca6
+    }
+    #wrap .vedioList .Online .name a{
+        color: #666
+    }
+    #wrap .vedioList .icon,
+    #wrap .vedioList .name,
+    #wrap .vedioList .streaming{
+    display: inline-block;
+    }
+    #wrap .vedioList .icon{
+      width:15%;
+      vertical-align: middle;
+    }
+    #wrap .vedioList .icon img {
+      border-radius: 50%;
+      border: 3px solid #e1e1e6
+    }
+    #wrap .vedioList .name{
+      width:25%;
+      vertical-align: middle;
+    }
+    #wrap .vedioList .name a{
+      text-decoration: none;
+    }
+    #wrap .vedioList .streaming{
+      width: 60%;
+      vertical-align: middle;
+      color: rgb(142,167,194)
+    }
   </style>
   <body>
     <div class="" id="wrap">
@@ -35,29 +74,54 @@
         <label>online</label>
         <label>offline</label>
       </div>
+      <div class="vedioList">
+
+      </div>
     </div>
 
     <script type="text/javascript" src="../jquery.min.js"></script>
     <script type="text/javascript">
+      var status = '';
+      var html = '';
+
       $(document).ready(function(){
         getChannelInfo();
-        $(".selectLabel label").click(function(){
-          $(".selectLabel label").removeClass("active");
-          $(this).addClass("active")
-        })
       });
 
-      var channels = ["freecodecamp","test_channel","ESL_SC2"];
+      var channels = ["freecodecamp","test_channel","ESL_SC2","storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
 
       function makeURL(type, name){
         return 'https://wind-bow.gomix.me/twitch-api/'+type+'/'+name+'?callback=?';
       }
 
+      function getChannelStatus(data){
+        if(data.stream === null || data.stream === undefined){
+          status = "OffLine";
+        } else {
+          status = "Online"
+        }
+      }
+
       function getChannelInfo(){
         channels.forEach(function(channel){
           $.getJSON(makeURL("streams", channel), function(data){
+            //console.log(data.stream)
+            var logo = data.logo != null?data.logo:"https://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F";
+            var name = data.display_name !=null?data.display_name:channel;
+            var description = status === "Online"?':'+data.status:"";
+            getChannelStatus(data);
             console.log(data)
+            html = '<div class="row '+
+              status + '"><div class="icon"><img src="' +
+              logo + '" class="logo"></div><div class="name" id="name"><a href="' +
+              data.url + '" target="_blank">' +
+              name + '</a></div><div class="streaming" id="streaming">'+
+              status + '<span class="hidden-xs">' +
+              description + '</span></div></div>';
+
+              status === "online"?$('.vedioList').prepend(html):$('.vedioList').append(html);
           })
+          html += html
         })
       }
     </script>
