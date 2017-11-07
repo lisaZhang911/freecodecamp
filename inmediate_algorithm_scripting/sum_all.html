@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script>
+    var sum = 0;
+
+    function sumAll(arr) {
+      var startNum = arr[0];
+      var lastNum = arr[1];
+
+       if(startNum < lastNum){
+         for(var i=startNum,j=startNum;i<lastNum-1;i++){
+             j++;
+            arr.push(j);
+         }
+       } else {
+         for(var i=startNum,j=startNum;i>lastNum+1;i--){
+             j--;
+            arr.push(j);
+         }
+       }
+
+    sum = arr.reduce(addVal)
+      console.log(sum)
+      return sum;
+    }
+function addVal(preVal,curVal){
+  return preVal+curVal
+}
+    sumAll([10, 5]);
+    </script>
+  </body>
+</html>

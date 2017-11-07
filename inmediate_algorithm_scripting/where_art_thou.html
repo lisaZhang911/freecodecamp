@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function where(collection, source) {
+      var arr = [];
+      var collectionKeys = [];
+      var sourceKeys = '';
+      var sourceVal = '';
+
+      for(keys in source){
+        sourceKeys = keys;
+        sourceVal = source[keys];
+      }
+      collection.forEach(function(val){
+        for(var name in val){
+          if(name == sourceKeys){
+            if(val[name] == sourceVal){
+              arr.push(val);
+          }
+        }
+      });
+        console.log(arr)
+      return arr;
+    }
+
+where([{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }], { last: "Capulet" });
+
+    </script>
+  </body>
+</html>

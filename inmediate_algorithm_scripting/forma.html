@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function convert(num) {
+      var numArr = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
+      var strArr = ["I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"];
+      var result = "";
+
+      while(num>0){
+        var i = numArr.length;
+
+        while(i>=0){
+          if(num>=numArr[i]){
+            result += strArr[i];
+            num -= numArr[i];
+          } else {
+            i--;
+          }
+        }
+      }
+    return result;
+}
+      convert(98)
+    </script>
+  </body>
+</html>
