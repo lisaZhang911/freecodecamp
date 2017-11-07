@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+  <script type="text/javascript">
+    function myReplace(str, before, after) {
+      var strArr = str.split(' ');
+      var strIndex = strArr.indexOf(before);
+
+      if(strArr[strIndex][0] == strArr[strIndex][0].toUpperCase()){
+        after = after.split('');
+        var afterHead = after[0].toUpperCase();
+        after.splice(0,1,afterHead);
+        after = after.join('');
+      }
+      strArr.splice(strIndex,1,after);
+      str = strArr.join(' ');
+      console.log(str)
+      return str;
+    }
+
+myReplace("His name is Tom", "Tom", "john")
+  </script>
+  </body>
+</html>
