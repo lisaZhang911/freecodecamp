@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      //接受一个字符串，若元音开头则直接在字符串后面添加way，若非元音开头，把元音移至结尾，并加上ay
+
+      function translate(str) {
+        var vowel = ['a','e','i','o','u'];
+        var strArr = str.split('');
+        var strArrLen = strArr.length;
+
+         transWord();
+
+         function transWord(){
+           if(vowel.indexOf(strArr[0])>=0){
+               str += 'way';
+               return;
+           } else {
+               strArr.splice(strArrLen,0,strArr[0]);
+               strArr.splice(0,1);
+               if(vowel.indexOf(strArr[0])>=0){
+                 str = strArr.join('')+'ay';
+                 return;
+               }
+               str = strArr.join('')+'ay';
+           }
+           transWord()
+         }
+           return str;
+      }
+
+      translate("california");
+
+    </script>
+  </body>
+</html>
