@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //AT和GC的配对，并生成返回一个二维数组
+    //方法一：循环；
+    function pair(str) {
+      var arr = [];
+      var strArr = str.split('');
+
+      for(var i=0;i<strArr.length;i++){
+        switch(strArr[i]){
+          case "G":
+            arr.push(["G","C"]);
+            break;
+          case "C":
+            arr.push(["C","G"]);
+            break;
+          case "A":
+            arr.push(["A","T"]);
+            break;
+          case "T":
+            arr.push(["T","A"]);
+            break;
+        }
+      }
+      console.log(arr);
+      return arr;
+    }
+
+    //方法二：对象存储对应关系
+    function pairObj(str){
+      var arrObj = [];
+      var strArr = str.split('');
+      var dnaMap = {
+          A:"T",
+          T:"A",
+          C:"G",
+          G:"C"
+      }
+
+      for(var i=0;i<strArr.length;i++){
+        arrObj.push([str[i],dnaMap[str[i]]])
+      }
+      console.log(arrObj)
+    }
+
+    pairObj("CTCTA");
+
+    </script>
+  </body>
+</html>
