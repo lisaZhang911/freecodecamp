@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      //检查一个值是否是基本布尔类型(true/false)，并返回 true 或 false
+
+      function boo(bool) {
+        var boolResult = typeof bool;
+
+        if(boolResult == 'boolean'){
+          return true
+        } else {
+          return false;
+        }
+        return bool;
+      }
+
+     boo(1);
+
+    </script>
+
+  </body>
+</html>
