@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //判断字符串str是否有缺失的字母，如果有则返回缺失的成员。没有，返回undefined
+    function fearNotLetter(str) {
+      var letter;
+
+      for(var j=0;j<str.length-1;j++){
+            var curLetter = str[j].charCodeAt();
+            var nextLetter = str[j+1].charCodeAt();
+
+             if(nextLetter-curLetter == 1){
+               continue;
+             } else {
+                var newNum = curLetter+1;
+                 letter = String.fromCharCode(newNum);
+             }
+      }
+      return letter;
+    }
+
+    fearNotLetter("bcd");
+    </script>
+  </body>
+</html>
