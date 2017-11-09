@@ -7,6 +7,8 @@
   <body>
     <script type="text/javascript">
     //将字符串中的字符 &、<、>、双引号, 单引号,转换为它们对应的 HTML实体
+
+    //方法一
     function convert(str) {
       var strArr = str.split('');
 
@@ -34,7 +36,24 @@
       return str;
     }
 
-convert("Shindler's List");
+    //方法二
+    function convertObj(str){
+      var entityMap = {
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        "'":'&apos;',
+        '"':'&quot;'
+      };
+
+      str = str.replace(/[&<>'"]/g, function(val){
+        return entityMap[val]
+      });
+      return str
+    }
+
+//convert("Shindler's List");
+convertObj("Shindler's List");
     </script>
   </body>
 </html>
