@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //写一个 function，传入两个或两个以上的数组，返回一个以给定的原始数组排序的不包含重复值的新数组。
+    function unite() {
+      var newArr = [];
+          newArr = newArr.concat(arguments[0]);
+      var union;
+
+      for(var i=1;i<arguments.length;i++){
+          arguments[i].forEach(function(val){
+            if(newArr.indexOf(val) < 0){
+              newArr.push(val)
+            }
+          })
+      }
+      console.log(newArr)
+      return newArr;
+    }
+    unite([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]);
+
+    </script>
+  </body>
+</html>
