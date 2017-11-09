@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //这个 function 接收一个字符串参数 str
+    //1、所有空格和下划线都转化为短横线‘-’
+    //  2、所有大写字母转为小写字母；
+    //  3、独立单词之间用短横线链接
+    function spinalCase(str) {
+      str = str.replace(/\s|_/g,'-').replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase();
+      console.log(str)
+    }
+
+    spinalCase("thisIsSpinalTap");
+    </script>
+  </body>
+</html>
