@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //斐波那契数列奇数项求和
+    //此数列前几项为[1,1,2,3,5,8,13,21].第一项+第二项=第三项，以此类推
+    //此function返回小于等于 num 的斐波那契数列奇数项之和
+    function fib(num){
+      if(num === 0){
+        return 0;
+      }
+      if(num === 1){
+        return 1;
+      }
+      var oddSum=0;
+      var union = 1;
+      var nextUnion = 1;
+      var unionSum = union+nextUnion;
+      var fibArr = [1,1,2];
+
+      //console.log(fibArr)
+      while(unionSum<num){
+        union = nextUnion;
+        //console.log('union',union);
+        nextUnion = unionSum;
+      //  console.log('nextUnion',nextUnion);
+        unionSum = union + nextUnion;
+        fibArr.push(unionSum)
+
+      }
+      function checkOdd(val){
+        return val%2 !=0 && val<=num
+      }
+      function sumOdd(pre,cur){
+        return pre+cur
+      }
+      fibArr = fibArr.filter(checkOdd);
+
+      oddSum = fibArr.reduce(sumOdd);
+      console.log('arr',oddSum);
+      return oddSum
+
+    }
+
+    fib(75025)
+    </script>
+  </body>
+</html>
