@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //将字符串中的字符 &、<、>、双引号, 单引号,转换为它们对应的 HTML实体
+    function convert(str) {
+      var strArr = str.split('');
+
+      for(var i=0;i<strArr.length;i++){
+        switch(strArr[i]){
+          case '&':
+            strArr.splice(i,1,'&amp;')
+            break;
+          case '<':
+            strArr.splice(i,1,'&lt;');
+            break;
+          case '>':
+            strArr.splice(i,1,'&gt;');
+            break;
+          case "'":
+            strArr.splice(i,1,'&apos;');
+            break;
+          case '"':
+            strArr.splice(i,1,'&quot;');
+            break;
+        }
+      }
+      str = strArr.join('');
+      console.log(str)
+      return str;
+    }
+
+convert("Shindler's List");
+    </script>
+  </body>
+</html>
