@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+    function sumPrimes(num) {
+      //var arr = [];
+      var sum = 0;
+      if(num == 1){
+        return;
+      }
+
+      for(var i=2;i<=num;i++){
+        if(isPrime(i)){
+          sum += i
+          //arr.push(i)
+        }
+      }
+      function isPrime(checkOne){
+        for(var j=2;j<checkOne;j++){
+          if(checkOne%j == 0){
+            return false;
+          }
+          //return true;
+        }
+          return true;
+      }
+    //console.log(arr)
+    console.log(sum)
+    }
+
+  sumPrimes(977)
+    </script>
+  </body>
+</html>
