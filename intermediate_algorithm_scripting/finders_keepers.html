@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //写一个 function，它遍历数组 arr，并返回数组中第一个满足 func 返回值的元素。
+    function find(arr, func) {
+      var num;
+
+      for(var i=0;i<arr.length;i++){
+        if(func(arr[i])){
+          num = arr[i];
+          //console.log(num)
+          return num;
+        }
+      }
+      return num;
+    }
+
+find([1, 3, 5, 9], function(num){ return num % 2 === 0; });
+
+    </script>
+  </body>
+</html>
