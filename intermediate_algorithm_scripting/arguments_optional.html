@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //创建一个计算两个参数之和的 function。如果只有一个参数，则返回一个 function，该 function 请求一个参数然后返回求和的结果。
+    //add(2)(3) 应该返回 5
+    //add(2, "3") 应该返回 undefined。
+    //add(2)([3]) 应该返回 undefined。
+    function add() {
+      var argumentArr = [].slice.call(arguments)
+      if(argumentArr.length ==2 && !isNum(argumentArr[1]) || !isNum(argumentArr[0])) {
+        return
+      }
+
+       if(argumentArr.length == 2){
+         return argumentArr[0]+argumentArr[1]
+       }
+
+       return function(num){
+          if(!isNum(num)){
+            return
+          }
+            return argumentArr[0]+num
+        }
+    }
+
+     function isNum(num){
+       return typeof num == 'number'
+     }
+
+  add(2,3)
+    </script>
+  </body>
+</html>
