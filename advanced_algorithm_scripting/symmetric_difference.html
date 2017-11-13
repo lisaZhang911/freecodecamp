@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //创建一个函数，接受两个或多个数组，返回所给数组的 对等差分数组.
+    //即返回多个数组中彼此都没有的元素
+    function sym() {
+      var newArr = [];
+      var arguArr = [].slice.call(arguments);
+
+      for(var i=0;i<arguArr.length;i++){
+        dealArr(newArr,arguArr[i])
+       }
+
+       function dealArr(arr1,arr2){
+         newArr = [];
+
+         arr1.forEach(function(val1){
+           if(arr2.indexOf(val1)<0){
+             newArr.push(val1)
+           }
+         });
+
+         arr2.forEach(function(val2){
+           if(arr1.indexOf(val2)<0){
+             newArr.push(val2)
+           }
+         })
+       }
+      newArr = newArr.filter(function(element,index,self){
+         return self.indexOf(element) == index;
+       })
+
+      return newArr;
+    }
+
+sym([3, 3, 3, 2, 5], [2, 1, 5, 7], [3, 4, 6, 6], [1, 2, 3], [5, 3, 9, 8], [1])
+
+    </script>
+  </body>
+</html>
