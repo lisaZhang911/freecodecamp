@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //如果传入字符串是一个有效的美国电话号码，则返回 true.
+    //号码有10位数字
+    //可以在前面加上国家代码1，则总长度为11位
+    //这10位数可以连着写，也可以按照‘三个数’，‘三个数’，’四个数‘的形式写
+    function telephoneCheck(str) {
+      var reg=/^1?\s?(\(\d{3}\)|\d{3})(\s|-)?\d{3}(\s|-)?\d{4}$/g;
+      var pat = new RegExp(reg);
+      var result = pat.test(str)
+
+      console.log(result)
+// 祝你好运
+
+return result;
+}
+
+
+
+telephoneCheck("555-555-5555");
+
+    </script>
+  </body>
+</html>
