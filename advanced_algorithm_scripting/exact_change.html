@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function checkCashRegister(price, cash, cid) {
+      // var change = cash-price;
+      // var changeStr = String(change);
+      // var yuanArr = [];
+      // var penNickArr = [];
+      // var penny = 0;
+      // var nickel = 0;
+      // var dime = 0;
+      // var quarter = 0;
+      // var one = 0;
+      // var five = 0;
+      // var ten = 0;
+      // var twenty = 0;
+      // var oneHundred = 0;
+      // // console.log(change);
+      //
+      // //分解总共的差价
+      // if(changeStr.indexOf('.')>-1){
+      //    changeArr = changeStr.split('.');
+      //    checkYuan(changeArr[0])
+      //    //penNickArr = changeArr[1];
+      //    checkPenNick(changeArr[1])
+      //
+      // } else {
+      //   checkYuan(changeArr[0])
+      // }
+      //
+      // //分解元
+      // function checkYuan(yuan){
+      //   if(String(yuan) ==3){
+      //     yuanArr = String(yuan).split('');
+      //
+      //     if(yuanArr[0]<=oneHundred){
+      //       if(yuanArr[1]<=ten || yuanArr[1]<=twenty){
+      //         if(yuanArr[2])<=one || yuanArr[2]/0.1<=dime ||
+      //       }
+      //     }
+      //   }
+      // }
+      // //分解角分
+      // function checkPenNick(penNick){
+      //   //penNick = String(penNick)
+      //   //console.log(typeof penNick)
+      //   if(String(penNick).length == 1){
+      //
+      //   }
+      // }
+      //
+      // //解析收银机中存款情况
+      // var cidMap = new Map(cid);
+      // penny = cidMap.get('PENNY')/0.01;
+      // nickel = cidMap.get('NICKEL')/0.05;
+      // dime = cidMap.get('DIME')/0.1;
+      // quarter = cidMap.get('QUARTER')/0.25;
+      // one = cidMap.get('ONE');
+      // five = cidMap.get('FIVE')/5;
+      // ten = cidMap.get('TEN')/10;
+      // twenty = cidMap.get('TWENTY')/20;
+      // oneHundred = cidMap.get('ONE HUNDRED')/100;
+      // //console.log(oneHundred)
+
+return change;
+}
+
+
+checkCashRegister(19.50, 20.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]);
+    </script>
+  </body>
+</html>
