@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function updateInventory(arr1, arr2) {
+  // 请保证你的代码考虑到所有情况
+    //var newListArr = new Map();
+    reverArr(curInv);
+    reverArr(newInv);
+
+   var curMap = new Map(curInv);
+   var newMap = new Map(newInv);
+//console.log(curObj)
+    var curObj = strMapToObj(curMap);
+    var newListObj = strMapToObj(newMap);
+    //console.log(newListObj)
+  //
+
+    for( key in curObj){
+      for(key1 in newListObj){
+        if(key == key1){
+          curObj[key] += newListObj[key1]
+        }
+      }
+    }
+     curMap = objToStrMap(curObj);
+     newMap = objToStrMap(newListObj);
+   //console.log(newMap)
+
+       for(var [key3,val3] of newMap.entries()){
+            //console.log(key3)
+         curMap.set(key3,val3)
+       }
+
+       curInv = [...curMap];
+       reverArr(curInv)
+       console.log(curInv)
+   return [...curMap]
+
+    //颠倒数组成员，为后续键值对化做准备
+      function reverArr(arr){
+        arr.forEach(function(val){
+          val.reverse()
+        })
+      }
+   //讲map转为对象
+   function strMapToObj(strMap){
+     var obj = Object.create(null);
+     for(var [k,v] of strMap){
+       obj[k]=v;
+     }
+     return obj;
+   }
+   //对象转map
+   function objToStrMap(obj) {
+     var strMap = new Map();
+     for (let k of Object.keys(obj)) {
+       strMap.set(k, obj[k]);
+     }
+     return strMap;
+   }
+}
+
+// 仓库库存示例
+    var curInv = [
+      [21, "Bowling Ball"],
+      [2, "Dirty Sock"],
+      [1, "Hair Pin"],
+      [5, "Microphone"]
+    ];
+
+var newInv = [
+  [2, "Hair Pin"],
+  [3, "Half-Eaten Apple"],
+  [67, "Bowling Ball"],
+  [7, "Toothpaste"]
+];
+
+updateInventory(curInv, newInv);
+    </script>
+  </body>
+</html>
