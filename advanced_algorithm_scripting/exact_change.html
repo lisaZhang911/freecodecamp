@@ -8,8 +8,9 @@
     <script type="text/javascript">
     function checkCashRegister(price, cash, cid) {
       var moneyFilter = 0;
+      //以下两个变量是存储可能需要返回的二位数组用的
       var billArr = [];
-
+      var itemArr = [];
       //应找零钱
       var change = Number((cash-price).toFixed(2));
 
@@ -37,9 +38,10 @@
 /********************************************************/
       function changeFun(change,cid){
 
-        var itemArr = [];
+        //倒叙进行，从百位数开始排查
         for(var i=cid.length-1;i>=0;i--){
           console.log('change',change)
+          console.log('i',i)
           if(cid[i][1] ==0){
             continue;
           }
@@ -65,15 +67,13 @@
             change = Number(change.toFixed(2));
             if(change ==0){
               console.log('finish')
+               console.log(billArr)
               return billArr
             } else {
               console.log('finish1')
                 changeFun(change,cid)
             }
-
-             console.log(billArr)
           }
-
         }
 
         //将价格中的百十元角分，分离出来，并计算对应的部分需要找多少零钱
