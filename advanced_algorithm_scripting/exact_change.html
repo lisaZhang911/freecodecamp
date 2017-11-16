@@ -45,10 +45,10 @@
           if(cid[i][1] ==0){
             continue;
           }
-
-          var x = cid[i][0];
-          filterChange(x,change)
-          console.log(i+':',moneyFilter)
+          //
+           var x = cid[i][0];
+           filterChange(x,change)
+           console.log(i+':',moneyFilter)
           if(moneyFilter ==0){
             continue;
           } else if(cid[i][1]<moneyFilter){
@@ -63,6 +63,7 @@
                 cid[i][1] -= moneyFilter;
             }
             billArr.push(itemArr);
+            console.log('billArr'+i+':'+billArr)
             itemArr = [];
             change = Number(change.toFixed(2));
             if(change ==0){
@@ -73,7 +74,7 @@
               console.log('finish1')
                 changeFun(change,cid)
             }
-          }
+           }
         }
 
         //将价格中的百十元角分，分离出来，并计算对应的部分需要找多少零钱

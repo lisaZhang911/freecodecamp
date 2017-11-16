@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function checkCashRegister(price, cash, cid) {
+      var moneyFilter = 0;
+      //以下两个变量是存储可能需要返回的二位数组用的
+      var billArr = [];
+      var itemArr = [];
+      var i = cid.length-1;
+      var sumCid = 0;
+      //应找零钱
+      var change = Number((cash-price).toFixed(2));
+
+      cid.forEach(function(val){
+         sumCid += val[1];
+      });
+      sumCid = Number(sumCid.toFixed(2));
+
+       //情况一：应找零钱多于收银台中的零钱
+      if(change > sumCid) {
+        console.log('infun')
+        return 'Insufficient Funds';
+      }
+       //情况二：应找零钱等于收银台中的零钱
+      if(change == sumCid || change==0) {
+        console.log('clo')
+        return 'Closed';
+      }
+       //情况三：应找零钱等小于收银台中的零钱-开始找零
+      if(change < sumCid){
+         changeFun(change,cid[i])
+      }
+    /********************************************************/
+      function changeFun(change,cidItem){
+        var changeSub = change;
+        //console.log('cidItem',cidItem);
+         moneyType(cidItem[0]);
+         //console.log(mType)
+         var moneyFilter = Math.floor(changeSub/mType) * mType;
+          //console.log('moneyFilter',moneyFilter)
+
+         if(cidItem[1]==0){
+           console.log('钱格子为0')
+           i--
+           if(i<0){
+             console.log('Insufficient Funds')
+             return 'Insufficient Funds'
+           }
+           changeFun(changeSub,cid[i])
+         }
+         if(moneyFilter == 0){
+            console.log('没有能找的')
+           i--;
+           if(i<0){
+             console.log('Insufficient Funds')
+             return 'Insufficient Funds'
+           }
+           changeFun(changeSub,cid[i])
+         }
+
+        if(cidItem[1]<moneyFilter && changeSub !=0){
+          itemArr.push(cidItem[0],(cidItem[1]).toFixed(2));
+          cidItem[1] =0;
+          changeSub -= cidItem[1];
+          console.log(changeSub)
+          //changeFun(change,cid[i])
+        } else if(moneyFilter<=cidItem[1] && changeSub !=0){
+            console.log('1')
+          itemArr.push(cidItem[0],(moneyFilter).toFixed(2));
+          //billArr.push(itemArr);
+          cidItem[1] -= moneyFilter;
+          changeSub -= moneyFilter;
+          console.log(changeSub)
+          //changeFun(change,cid[i])
+        }
+        billArr.push(itemArr);
+        itemArr=[]
+            console.log('billArr:'+billArr);
+
+           console.log('changFi',changeSub)    //这里执行后，怎么又跳回上面第二个if里面了
+           //console.log('mon',moneyFilter)
+        if(Number(changeSub.toFixed(2)) != 0){
+            console.log('billArr111')
+            changeFun(changeSub,cid[i])
+        }
+        return billArr;
+      }
+
+      /***********************/
+      function moneyType(str){
+        switch(str){
+          case "ONE HUNDRED":
+            return mType = 100;
+            break;
+          case "TWENTY":
+            return mType = 20;
+            break;
+          case "TEN":
+            return mType = 10;
+            break;
+          case "FIVE":
+            return mType = 5;
+            break;
+          case "ONE":
+            return mType = 1;
+            break;
+          case "QUARTER":
+            return mType = 0.25;
+            break;
+          case "DIME":
+            return mType = 0.1;
+            break;
+          case "NICKEL":
+            return mType = 0.05;
+            break;
+          case "PENNY":
+            return mType = 0.01;
+            break;
+        }
+      }
+    }
+    checkCashRegister(180.00, 200.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]])
+
+    </script>
+  </body>
+</html>
