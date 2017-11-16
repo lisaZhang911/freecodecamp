@@ -6,40 +6,32 @@
   </head>
   <body>
     <script type="text/javascript">
-    function updateInventory(arr1, arr2) {
+    //依照一个存着新进货物的二维数组，更新存着现有库存(在 arr1 中)的二维数组.
+    // 如果货物已存在则更新数量 . 如果没有对应货物则把其加入到数组中，更新最新的数量. 返回当前的库存数组，
+    //且按货物名称的字母顺序排列.
+    function updateInventory(curInv, newInv) {
   // 请保证你的代码考虑到所有情况
-    //var newListArr = new Map();
-    reverArr(curInv);
-    reverArr(newInv);
+    var curIndexArr = [];
 
-   var curMap = new Map(curInv);
-   var newMap = new Map(newInv);
-//console.log(curObj)
-    var curObj = strMapToObj(curMap);
-    var newListObj = strMapToObj(newMap);
-    //console.log(newListObj)
-  //
+     reverArr(curInv);
+     reverArr(newInv);
+     var curMap = new Map(curInv);
+     var newMap = new Map(newInv);
 
-    for( key in curObj){
-      for(key1 in newListObj){
-        if(key == key1){
-          curObj[key] += newListObj[key1]
-        }
-      }
-    }
-     curMap = objToStrMap(curObj);
-     newMap = objToStrMap(newListObj);
-   //console.log(newMap)
-
-       for(var [key3,val3] of newMap.entries()){
-            //console.log(key3)
-         curMap.set(key3,val3)
+   for(var key of curMap.keys()){
+     curIndexArr.push(key)
+   }
+   for(var key of newMap.keys()){
+       if(curIndexArr.indexOf(key) >-1){
+          curMap.set(key,curMap.get(key)+newMap.get(key))
+       } else {
+         curMap.set(key,newMap.get(key))
        }
-
-       curInv = [...curMap];
-       reverArr(curInv)
-       console.log(curInv)
-   return [...curMap]
+   }
+   curInv = [...curMap].sort();
+   reverArr(curInv)
+   console.log(curInv)
+   return curInv
 
     //颠倒数组成员，为后续键值对化做准备
       function reverArr(arr){
@@ -47,40 +39,8 @@
           val.reverse()
         })
       }
-   //讲map转为对象
-   function strMapToObj(strMap){
-     var obj = Object.create(null);
-     for(var [k,v] of strMap){
-       obj[k]=v;
-     }
-     return obj;
-   }
-   //对象转map
-   function objToStrMap(obj) {
-     var strMap = new Map();
-     for (let k of Object.keys(obj)) {
-       strMap.set(k, obj[k]);
-     }
-     return strMap;
-   }
 }
-
-// 仓库库存示例
-    var curInv = [
-      [21, "Bowling Ball"],
-      [2, "Dirty Sock"],
-      [1, "Hair Pin"],
-      [5, "Microphone"]
-    ];
-
-var newInv = [
-  [2, "Hair Pin"],
-  [3, "Half-Eaten Apple"],
-  [67, "Bowling Ball"],
-  [7, "Toothpaste"]
-];
-
-updateInventory(curInv, newInv);
+updateInventory([[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]], [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]])
     </script>
   </body>
 </html>
