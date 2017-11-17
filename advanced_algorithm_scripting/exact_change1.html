@@ -6,126 +6,148 @@
   </head>
   <body>
     <script type="text/javascript">
-    function checkCashRegister(price, cash, cid) {
-      var moneyFilter = 0;
-      //以下两个变量是存储可能需要返回的二位数组用的
-      var billArr = [];
-      var itemArr = [];
-      var i = cid.length-1;
-      var sumCid = 0;
-      //应找零钱
-      var change = Number((cash-price).toFixed(2));
 
-      cid.forEach(function(val){
-         sumCid += val[1];
-      });
-      sumCid = Number(sumCid.toFixed(2));
 
-       //情况一：应找零钱多于收银台中的零钱
-      if(change > sumCid) {
-        console.log('infun')
-        return 'Insufficient Funds';
-      }
-       //情况二：应找零钱等于收银台中的零钱
-      if(change == sumCid || change==0) {
-        console.log('clo')
-        return 'Closed';
-      }
-       //情况三：应找零钱等小于收银台中的零钱-开始找零
-      if(change < sumCid){
-         changeFun(change,cid[i])
-      }
-    /********************************************************/
-      function changeFun(change,cidItem){
-        var changeSub = change;
-        //console.log('cidItem',cidItem);
-         moneyType(cidItem[0]);
-         //console.log(mType)
-         var moneyFilter = Math.floor(changeSub/mType) * mType;
-          //console.log('moneyFilter',moneyFilter)
 
-         if(cidItem[1]==0){
-           console.log('钱格子为0')
-           i--
-           if(i<0){
-             console.log('Insufficient Funds')
-             return 'Insufficient Funds'
-           }
-           changeFun(changeSub,cid[i])
-         }
-         if(moneyFilter == 0){
-            console.log('没有能找的')
-           i--;
-           if(i<0){
-             console.log('Insufficient Funds')
-             return 'Insufficient Funds'
-           }
-           changeFun(changeSub,cid[i])
-         }
+      function checkCashRegister(price, cash, cid) {
+        let resultArr = [];
+        let index = 0;
+        let cid1;
+        var moneyFilter = 0;
+        //以下两个变量是存储可能需要返回的二位数组用的
+        var billArr = [];
+        var itemArr = [];
+        var i = cid.length-1;
+        var sumCid = 0;
+        cid1 = cid.reverse();
+        //应找零钱
+        var change = Number((cash-price).toFixed(2));
+        cid.forEach(function(val){
+           sumCid += val[1];
+        });
+        sumCid = Number(sumCid.toFixed(2));
 
-        if(cidItem[1]<moneyFilter && changeSub !=0){
-          itemArr.push(cidItem[0],(cidItem[1]).toFixed(2));
-          cidItem[1] =0;
-          changeSub -= cidItem[1];
-          console.log(changeSub)
-          //changeFun(change,cid[i])
-        } else if(moneyFilter<=cidItem[1] && changeSub !=0){
-            console.log('1')
-          itemArr.push(cidItem[0],(moneyFilter).toFixed(2));
-          //billArr.push(itemArr);
-          cidItem[1] -= moneyFilter;
-          changeSub -= moneyFilter;
-          console.log(changeSub)
-          //changeFun(change,cid[i])
+        if (change < 0) {
+          console.log("无效输入");
+          return;
         }
-        billArr.push(itemArr);
-        itemArr=[]
-            console.log('billArr:'+billArr);
-
-           console.log('changFi',changeSub)    //这里执行后，怎么又跳回上面第二个if里面了
-           //console.log('mon',moneyFilter)
-        if(Number(changeSub.toFixed(2)) != 0){
-            console.log('billArr111')
-            changeFun(changeSub,cid[i])
+         //情况一：应找零钱多于收银台中的零钱
+        if(change > sumCid) {
+          //console.log('应找零：'+change+'，零钱总计：'+sumCid+',,,无法找零')
+          console.log(',,,无法找零')
+          return 'Insufficient Funds';
         }
-        return billArr;
+         //情况二：应找零钱等于收银台中的零钱
+        if(change == sumCid || change==0) {
+          console.log('close')
+          return 'Closed';
+        }
+         //情况三：应找零钱等小于收银台中的零钱-开始找零
+        if(change < sumCid){
+           changeFun(change,cid1[index])
+        }
+
+
+
+
+        function changeFun(change,cidItem){
+          console.log(cidItem);
+          let mType = moneyType(cidItem);
+          console.log(mType);
+          let model = change % mType.number;
+          //mType.number为该面值现有的张数
+          let times = Math.floor(change / mType.number);//需要的最大张数
+          if (times === 0 && model !== 0) {
+            index++;
+            if (index >= cid1.length) {
+              //TODO  结束
+              console.log(resultArr);
+              return;
+            } else {
+              changeFun(change,cid1[index]);
+              return;//结束本次递归调用
+            }
+          }
+          // console.log(mType);
+          // console.log(times,mType.count);
+          if (times > mType.count) {//需要的张数大于现有张数，无法全部找零
+            change -= cidItem[1];
+            resultArr.push(cidItem);
+            index++;
+              if (index >= cid1.length) {
+                //TODO  结束
+                console.log(resultArr);
+                return;
+              } else {
+                changeFun(change,cid1[index]);
+                return;//结束本次递归调用
+              }
+            //TODO  修改cid对应面值的金额
+          } else {
+            change -= times * mType.number;
+            resultArr.push([cidItem[0],mType.number * times]);
+            // console.log(resultArr);
+            if (model === 0) {
+              console.log(resultArr);
+              return; //结束
+            } else {
+              index++;
+              if (index >= cid1.length) {
+                //TODO  结束
+                console.log(resultArr);
+                return;
+              } else {
+                changeFun(change,cid1[index]);
+                return;//结束本次递归调用
+              }
+            }
+          }
+        }
       }
+    /**
+     * [changeFun description]
+     * @param  {[type]} change  [description]
+     * @param  {[type]} cidItem [description]
+     * @return {[type]}         [description]
+     */
 
-      /***********************/
-      function moneyType(str){
-        switch(str){
-          case "ONE HUNDRED":
-            return mType = 100;
-            break;
-          case "TWENTY":
-            return mType = 20;
-            break;
-          case "TEN":
-            return mType = 10;
-            break;
-          case "FIVE":
-            return mType = 5;
-            break;
-          case "ONE":
-            return mType = 1;
-            break;
-          case "QUARTER":
-            return mType = 0.25;
-            break;
-          case "DIME":
-            return mType = 0.1;
-            break;
-          case "NICKEL":
-            return mType = 0.05;
-            break;
-          case "PENNY":
-            return mType = 0.01;
-            break;
-        }
+    /**
+     * [moneyType description]
+     * @param  {[type]} str [description]
+     * @return {[type]}     [description]
+     */
+    function moneyType(str){
+      switch(str[0]){
+        case "ONE HUNDRED":
+          return {number:100,count:str[1]/100};
+          break;
+        case "TWENTY":
+          return {number:20,count:str[1]/20};
+          break;
+        case "TEN":
+          return {number:10,count:str[1]/10};
+          break;
+        case "FIVE":
+          return {number:5,count:str[1]/5};
+          break;
+        case "ONE":
+          return {number:1,count:str[1]/1};
+          break;
+        case "QUARTER":
+          return {number:0.25,count:str[1]/0.25};
+          break;
+        case "DIME":
+          return {number:0.1,count:str[1]/0.1};
+          break;
+        case "NICKEL":
+          return {number:0.05,count:str[1]/0.05};
+          break;
+        case "PENNY":
+          return {number:0.01,count:str[1]/0.01};
+          break;
       }
     }
-    checkCashRegister(180.00, 200.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]])
-
+    checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]])
     </script>
   </body>
 </html>

@@ -11,16 +11,16 @@
       //以下两个变量是存储可能需要返回的二位数组用的
       var billArr = [];
       var itemArr = [];
+      var i = cid.length-1;
+      var sumCid = 0;
       //应找零钱
       var change = Number((cash-price).toFixed(2));
 
-      //收银台合计零钱
-      var sumCid = 0;
-
       cid.forEach(function(val){
-        sumCid += val[1]
+         sumCid += val[1];
       });
-       Number(sumCid.toFixed(2));
+      sumCid = Number(sumCid.toFixed(2));
+
        //情况一：应找零钱多于收银台中的零钱
       if(change > sumCid) {
         console.log('infun')
@@ -33,84 +33,99 @@
       }
        //情况三：应找零钱等小于收银台中的零钱-开始找零
       if(change < sumCid){
-         changeFun(change,cid)
+         changeFun(change,cid[i])
       }
-/********************************************************/
-      function changeFun(change,cid){
+    /********************************************************/
+      function changeFun(change,cidItem){
+        var changeSub = change;
+        //console.log('cidItem',cidItem);
+         moneyType(cidItem[0]);
+         //console.log(mType)
+         var moneyFilter = Math.floor(changeSub/mType) * mType;
+          //console.log('moneyFilter',moneyFilter)
 
-        //倒叙进行，从百位数开始排查
-        for(var i=cid.length-1;i>=0;i--){
-          console.log('change',change)
-          console.log('i',i)
-          if(cid[i][1] ==0){
-            continue;
-          }
-          //
-           var x = cid[i][0];
-           filterChange(x,change)
-           console.log(i+':',moneyFilter)
-          if(moneyFilter ==0){
-            continue;
-          } else if(cid[i][1]<moneyFilter){
-                itemArr.push(cid[i][0],(cid[i][1]).toFixed(2));
-                change -= cid[i][1];
-                cid[i][1] = 0;
-                console.log(i+':con1:'+itemArr)
-            } else if(moneyFilter<=cid[i][1]){
-              console.log(i+':con2')
-                itemArr.push(cid[i][0],(moneyFilter).toFixed(2));
-                change -= moneyFilter;
-                cid[i][1] -= moneyFilter;
-            }
-            billArr.push(itemArr);
-            console.log('billArr'+i+':'+billArr)
-            itemArr = [];
-            change = Number(change.toFixed(2));
-            if(change ==0){
-              console.log('finish')
-               console.log(billArr)
-              return billArr
-            } else {
-              console.log('finish1')
-                changeFun(change,cid)
-            }
+         if(cidItem[1]==0){
+           console.log('钱格子为0')
+           i--
+           if(i<0){
+             console.log('Insufficient Funds')
+             return 'Insufficient Funds'
            }
-        }
+           changeFun(changeSub,cid[i])
+         }
+         if(moneyFilter == 0){
+            console.log('没有能找的')
+           i--;
+           if(i<0){
+             console.log('Insufficient Funds')
+             return 'Insufficient Funds'
+           }
+           changeFun(changeSub,cid[i])
+         }
 
-        //将价格中的百十元角分，分离出来，并计算对应的部分需要找多少零钱
-        function filterChange(changeType,change){
-          switch(changeType) {
-            case "ONE HUNDRED":
-              moneyFilter = Math.floor(change / 100) * 100;
-              break;
-            case "TWENTY":
-              moneyFilter = Math.floor(change / 20) * 20;
-              break;
-            case "TEN":
-              moneyFilter = Math.floor(change / 10) * 10;
-              break;
-            case "FIVE":
-              moneyFilter = Math.floor(change / 5) * 5;
-              break;
-            case "ONE":
-              moneyFilter = Math.floor(change / 1);
-              break;
-            case "QUARTER":
-              moneyFilter = Math.floor(change / 0.25) * 0.25;
-              break;
-            case "DIME":
-              moneyFilter = Math.floor(change / 0.10) * 0.10;
-              break;
-            case "NICKEL":
-              moneyFilter = Math.floor(change / 0.05) * 0.05;
-              break;
-            case "PENNY":
-              moneyFilter = Math.floor(change / 0.01) * 0.01;
-              break;
-          }
+        if(cidItem[1]<moneyFilter && changeSub !=0){
+          itemArr.push(cidItem[0],(cidItem[1]).toFixed(2));
+          cidItem[1] =0;
+          changeSub -= cidItem[1];
+          console.log(changeSub)
+          //changeFun(change,cid[i])
+        } else if(moneyFilter<=cidItem[1] && changeSub !=0){
+            console.log('1')
+          itemArr.push(cidItem[0],(moneyFilter).toFixed(2));
+          //billArr.push(itemArr);
+          cidItem[1] -= moneyFilter;
+          changeSub -= moneyFilter;
+          console.log(changeSub)
+          //changeFun(change,cid[i])
+        }
+        billArr.push(itemArr);
+        itemArr=[]
+            console.log('billArr:'+billArr);
+
+           console.log('changFi',changeSub)    //这里执行后，怎么又跳回上面第二个if里面了
+           //console.log('mon',moneyFilter)
+        if(Number(changeSub.toFixed(2)) != 0){
+            console.log('billArr111')
+            changeFun(changeSub,cid[i])
+        }
+        return billArr;
+      }
+
+      /***********************/
+      function moneyType(str){
+        switch(str){
+          case "ONE HUNDRED":
+            return mType = 100;
+            break;
+          case "TWENTY":
+            return mType = 20;
+            break;
+          case "TEN":
+            return mType = 10;
+            break;
+          case "FIVE":
+            return mType = 5;
+            break;
+          case "ONE":
+            return mType = 1;
+            break;
+          case "QUARTER":
+            return mType = 0.25;
+            break;
+          case "DIME":
+            return mType = 0.1;
+            break;
+          case "NICKEL":
+            return mType = 0.05;
+            break;
+          case "PENNY":
+            return mType = 0.01;
+            break;
         }
       }
-      checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]])
+    }
+    checkCashRegister(180.00, 200.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]])
+
     </script>
   </body>
 </html>
