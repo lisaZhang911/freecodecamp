@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    //依照一个存着新进货物的二维数组，更新存着现有库存(在 arr1 中)的二维数组.
+    // 如果货物已存在则更新数量 . 如果没有对应货物则把其加入到数组中，更新最新的数量. 返回当前的库存数组，
+    //且按货物名称的字母顺序排列.
+    function updateInventory(curInv, newInv) {
+  // 请保证你的代码考虑到所有情况
+    var curIndexArr = [];
+
+     reverArr(curInv);
+     reverArr(newInv);
+     var curMap = new Map(curInv);
+     var newMap = new Map(newInv);
+
+   for(var key of curMap.keys()){
+     curIndexArr.push(key)
+   }
+   for(var key of newMap.keys()){
+       if(curIndexArr.indexOf(key) >-1){
+          curMap.set(key,curMap.get(key)+newMap.get(key))
+       } else {
+         curMap.set(key,newMap.get(key))
+       }
+   }
+   curInv = [...curMap].sort();
+   reverArr(curInv)
+   console.log(curInv)
+   return curInv
+
+    //颠倒数组成员，为后续键值对化做准备
+      function reverArr(arr){
+        arr.forEach(function(val){
+          val.reverse()
+        })
+      }
+}
+updateInventory([[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]], [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]])
+    </script>
+  </body>
+</html>
