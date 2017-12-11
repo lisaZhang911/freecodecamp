@@ -1,0 +1,16 @@
+html, body {
+  height: 100%; }
+
+#example {
+  height: 100%; }
+  #example .row {
+    height: 100%; }
+  #example .col-md-6 {
+    float: left;
+    width: 50%;
+    height: 100%; }
+  #example .form-control {
+    width: 90%;
+    height: 100%; }
+
+/*# sourceMappingURL=index.css.map */

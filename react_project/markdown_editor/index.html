@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <div class="" id="example"></div>
+
+    <script type="text/babel">
+      var DisplayContainer = React.createClass({
+        getInitialState: function(){
+          return {
+             value: 'Heading\n=======\n\nSub-heading\n-----------\n \n### Another deeper heading\n \nParagraphs are separated\nby a blank line.\n\nLeave 2 spaces at the end of a line to do a  \nline break\n\nText attributes *italic*, **bold**, \n`monospace`, ~~strikethrough~~ .\n\nShopping list:\n\n  * apples\n  * oranges\n  * pears\n\nNumbered list:\n\n  1. apples\n  2. oranges\n  3. pears\n\nThe rain---not the reign---in\nSpain.\n\n *[Herman Fassett](https://freecodecamp.com/hermanfassett)*'
+          }
+        },
+        updateValue: function(modifyVal){
+          this.setState({
+            value:modifyVal
+          })
+        },
+        rawMarkup: function(val){
+          var rawMarkup = marked(val,{sanitize:true});
+          return {__html: rawMarkup}
+        },
+        render: function(){
+          return (
+            <div className="row">
+              <div className="col-md-6">
+                <RawInput value={this.state.value} updateValue={this.updateValue}></RawInput>
+              </div>
+              <div className="col-md-6">
+                <span dangerouslySetInnerHTML={this.rawMarkup(this.state.value)}></span>
+              </div>
+            </div>
+          )
+        }
+      });
+
+      var RawInput = React.createClass({
+        update: function(){
+          var modifyVal = this.refs.inputValue.value;
+          this.props.updateValue(modifyVal);
+        },
+        render: function(){
+          return (
+            <textarea rows="22" type="text" ref="inputValue" value={this.props.value} onChange={this.update} className="form-control"></textarea>
+          )
+        }
+      })
+
+      ReactDOM.render(
+        <DisplayContainer/>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>
