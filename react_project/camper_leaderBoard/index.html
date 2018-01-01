@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
+    <link rel="stylesheet" href="index.css"/>
+  </head>
+  <body>
+    <div id="example"></div>
+
+   <script type="text/babel">
+      var Header = React.createClass({
+        render: function(){
+          return (
+            <h1 className="title">{this.props.title}</h1>
+          )
+        }
+      });
+      var DisplayTable = React.createClass({
+        getInitialState: function(){
+          return {
+            listItems: [],
+          }
+        },
+        componentDidMount: function() {
+          $.get(this.props.source, function(result) {
+               var listItems = result.map((x,index) =>
+                  <tr><td>{index+1}</td><td className="userName"><a href={'https://www.freecodecamp.com/'+x.username}>{x.username}</a></td><td>{x.recent}</td><td>{x.alltime}</td></tr>
+                 )
+               this.setState({listItems:listItems})
+          }.bind(this));
+        },
+        sortByCondition: function(src){
+           //console.log(src)
+          $.get('http://fcctop100.herokuapp.com/api/fccusers/top/'+src ,function(result){
+            var listItems = result.map((x,index) =>
+               <tr><td>{index+1}</td><td className="userName"><a href={'https://www.freecodecamp.com/'+x.username}>{x.username}</a></td><td>{x.recent}</td><td>{x.alltime}</td></tr>
+              )
+            this.setState({listItems:listItems})
+          }.bind(this))
+        },
+        render: function(){
+          return (
+            <table>
+              <tr><th>#</th><th>User Name</th><th onClick={(src) => this.sortByCondition('recent')}>30天内完成数量</th><th onClick={(src) => this.sortByCondition('alltime')}>总完成数量</th></tr>
+              {this.state.listItems}
+            </table>
+          )
+        }
+      });
+      var DisplayContainer = React.createClass({
+        render: function(){
+          return (
+            <div className="container">
+              <Header title="Camper LeaderBoard"></Header>
+              <DisplayTable source="http://fcctop100.herokuapp.com/api/fccusers/top/recent"/>
+            </div>
+          )
+        }
+      });
+
+      ReactDOM.render(
+        <DisplayContainer source=""/>,
+        document.getElementById('example')
+      )
+   </script>
+  </body>
+</html>

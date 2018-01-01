@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+#example .container {
+  width: 75%;
+  margin: 5% auto 10%; }
+  #example .container .title {
+    padding: 10px 0;
+    text-align: center;
+    background: #381F0B;
+    color: #fff;
+    font-size: 26px; }
+  #example .container table {
+    width: 100%;
+    text-align: center; }
+    #example .container table tr {
+      border-bottom: 2px solid #ddd;
+      line-height: 280%;
+      background: #f9f9f9; }
+      #example .container table tr:nth-child(2n-1) {
+        background: #eef0ee; }
+      #example .container table tr .userName {
+        font-weight: bold;
+        color: #337ab7; }
+
+/*# sourceMappingURL=index.css.map */
