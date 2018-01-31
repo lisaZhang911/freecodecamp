@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="antd.js"></script>
+    <link rel="stylesheet" href="antd.css">
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-compat/3.0.0-alpha1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css"/>
+  </head>
+
+  <body>
+    <div class="" id="example"></div>
+
+    <script type="text/babel">
+    var Modal = antd.Modal;
+     var cuisineTmp = typeof localStorage.cuisine  == undefined?JSON.stringify([{"title":"鸡块","ingredients":["鲜鸡脯","葱姜蒜","料酒","小粉"]}]):JSON.parse(localStorage.cuisine);
+
+     function update(){
+       ReactDOM.render(
+         <Dis/>,
+         document.getElementById('example')
+       )
+     };
+
+    var ShowPanelItem = React.createClass({
+      getInitialState: function(){
+        return {visible: false}
+      },
+      disContent: function(){
+        this.setState({
+          visible: !this.state.visible
+        });
+      },
+      remove: function(){
+        cuisineTmp.splice(this.props.index,1);
+        localStorage.cuisine = JSON.stringify(cuisineTmp);
+        update();
+      },
+       render() {
+         var titleCls = 'cuisineTitle';
+         var contentCls = 'cuisineContent';
+         if(this.state.visible){
+           titleCls+=' curTitle';
+           contentCls+=' contentShow';
+         }
+         var cuisinList = this.props.ingredient.map((item) =>
+                <li>{item}</li>
+          )
+         return (
+           <li className="itemList">
+            <h5 className={titleCls} onClick={this.disContent}>{this.props.title}</h5>
+            <div className={contentCls}>
+              <h6>配料</h6>
+              <hr/>
+              <ul>
+                {cuisinList}
+              </ul>
+              <button className="ant-btn danger" onClick={this.remove}>删除</button>
+              <DialogBox btnName="编辑" elemCls="ant-btn edit" index={this.props.index} title={this.props.title} ingredient={this.props.ingredient} ></DialogBox>
+            </div>
+          </li>
+
+         )
+       }
+    });
+    var DialogBox = React.createClass({
+      getInitialState() {
+        return {
+          visible: false,
+          add: false,
+          edit: false
+         };
+      },
+      showModal(res) {
+        var cls = res.target.className;
+
+        if(cls.indexOf('add') >-1){
+          this.setState({
+            add: true
+          })
+        }
+        if(cls.indexOf('edit') >-1){
+          this.setState({
+            edit: true
+          });
+        }
+        this.setState({
+          visible: true,
+        });
+      },
+      handleOk() {
+        var index = -1;
+        if(this.state.add){
+          index = cuisineTmp.length;
+        }
+        if(this.state.edit){
+          index = this.props.index;
+        }
+        var reg = /\,|\，/g;
+        var recipeName = this.refs.inputBox.value;
+        var ingredient = this.refs.inputArea.value;
+        cuisineTmp.splice(index,1,{"title":recipeName,"ingredients":ingredient.split(reg)})
+        localStorage.cuisine = JSON.stringify(cuisineTmp);
+
+        this.setState({
+          confirmLoading: false,
+          visible: false,
+          add: false,
+          edit: false
+        });
+
+        update()
+      },
+      handleCancel() {
+        this.props.visible = false
+        this.setState({
+          visible: false
+        });
+      },
+      render() {
+        return <div>
+          <button className={this.props.elemCls} onClick={this.showModal.bind(this.res)} index={this.props.index}>{this.props.btnName}</button>
+          <Modal title="添加菜谱" visible={this.state.visible}
+          confirmLoading={this.state.confirmLoading} onOk={this.handleOk.bind(this.res)} onCancel={this.handleCancel}>
+          <h4>新菜名</h4>
+          <input className="inputBox" type="text" placeholder="请在此输入新菜名" ref="inputBox" value={this.props.title}/>
+          <hr className="cutLine"/>
+          <h4>成分</h4>
+          <textarea className="inputArea" ref="inputArea" value={this.props.ingredient}></textarea>
+          </Modal>
+          </div>;
+        }
+      });
+
+    var Dis = React.createClass({
+      getInitialState: function(){
+        return {visible:false}
+      },
+      render: function(){
+        var cuisineTit = cuisineTmp.map((item,curIndex) =>
+            <ShowPanelItem index={curIndex} title={item.title} ingredient={item.ingredients}></ShowPanelItem>
+          )
+        return (
+          <div id="wrap">
+           <div className="container">
+            <ul>
+                {cuisineTit}
+            </ul>
+           </div>
+            <DialogBox btnName="新增菜品" elemCls="ant-btn add"></DialogBox>
+          </div>
+        )
+      }
+    })
+
+      ReactDOM.render(
+        <Dis/>,
+        document.getElementById('example')
+      )
+    </script>
+  </body>
+</html>
