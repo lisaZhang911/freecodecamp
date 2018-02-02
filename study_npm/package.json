@@ -6,6 +6,10 @@
   "scripts": {
     "test": "node test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lisaZhang911/freecodecamp.git"
+  },
   "author": "",
   "license": "ISC"
 }
