@@ -1,85 +1,10 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+      <a class="linkTopic link">click hear for random article</a>
+      <div class="searchArea" :class="{active: isActive}" @click="search" >
+        <input class="glass" type="text" />
+      </div>
+      <p class="linkTopic">Click icon to search</p>
   </div>
 </template>
 
@@ -88,7 +13,12 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      isActive: false
+    }
+  },
+  methods: {
+    search: function(){
+      this.$set(this, 'isActive', true)
     }
   }
 }
@@ -96,18 +26,59 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.hello {
+  margin-top: 15%
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.hello .linkTopic{
+  color: #fff;
+  display: block;
 }
-li {
+.hello .link {
+  cursor: pointer;
+}
+.searchArea {
+  width: 36px;
+  margin: 25px auto;
+  border: 4px solid  #D96F32;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  position: relative;
+  cursor: pointer;
+}
+.searchArea::before {
+  content: '';
+  position: absolute;
+  width: 21px;
+  height: 3px;
+  transform: rotate(34deg);
+  right: -20px;
+  bottom: -1px;
+  background: #D96F32
+}
+.glass {
   display: inline-block;
-  margin: 0 10px;
+  visibility: hidden;
+  width: 100%;
+  height: 32px;
+  outline: none;
+  background: transparent
 }
-a {
-  color: #42b983;
+.searchArea.active {
+  animation: changeGlass 1s;
+  animation-fill-mode: forwards;
+}
+.searchArea.active::before {
+  animation: vanish 1s;
+  animation-fill-mode: forwards;
+}
+@keyframes changeGlass {
+  from {width: 32px}
+  to {width: 200px}
+}
+@keyframes vanish {
+  from {opacity: 1}
+  to {opacity: 0}
 }
 </style>
