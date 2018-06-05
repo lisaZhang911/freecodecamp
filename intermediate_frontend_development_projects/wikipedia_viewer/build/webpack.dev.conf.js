@@ -38,7 +38,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       ? { warnings: false, errors: true }
       : false,
     publicPath: config.dev.assetsPublicPath,
-    proxy: config.dev.proxyTable,
+    proxy: {
+      '/api':{
+        target: 'https://en.wikipedia.org',
+        pathRewrite: {'^/api':''},
+        changeOrigin: true
+      }
+    },
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,

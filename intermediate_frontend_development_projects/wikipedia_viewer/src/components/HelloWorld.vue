@@ -2,22 +2,46 @@
   <div class="hello">
       <a class="linkTopic link" @click="searchRandom">click hear for random article</a>
       <div class="searchArea" :class="{active: isActive}" @click="searchState" >
-        <input class="glass" type="text" v-model="searchVal" @keyup.enter="searchWiki" />
+        <input class="glass" type="text" v-model="searchInfo.gsrsearch" @keyup.enter="searchWiki" />
       </div>
       <p class="linkTopic">Click icon to search</p>
+      <ul>
+        <li v-for="item in wikiList">
+          <h3>{{item.title}}</h3>
+          <p>{{item.extract}}</p>
+        </li>
+      </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HelloWorld',
   data () {
     return {
       isActive: false,
-      searchVal: ''
+      searchInfo: {
+        format: 'json',
+        action: 'query',
+        generator: 'search',
+        gsrnamespace: 0,
+        gsrlimit: 10,
+        prop: 'pageimages|extracts',
+        pilimit: 'max',
+        exintro: '',
+        explaintext: '',
+        exsentences: 1,
+        exlimit:'max',
+        gsrsearch: ''
+      }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'wikiList'
+    ])
   },
   methods: {
     searchState: function(){
@@ -27,7 +51,7 @@ export default {
       window.open('http://en.wikipedia.org/wiki/Special:Random')
     },
     searchWiki: function(){
-      axios.get('https://en.wikipedia.org/w/api.php')
+      this.$store.dispatch('getWikiList',this.searchInfo)
     }
   }
 }
