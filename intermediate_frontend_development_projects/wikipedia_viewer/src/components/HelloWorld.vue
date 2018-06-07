@@ -5,10 +5,12 @@
         <input class="glass" type="text" v-model="searchInfo.gsrsearch" @keyup.enter="searchWiki" />
       </div>
       <p class="linkTopic">Click icon to search</p>
-      <ul>
+      <ul class="searchList">
         <li v-for="item in wikiList">
-          <h3>{{item.title}}</h3>
-          <p>{{item.extract}}</p>
+          <a :href="'https://en.wikipedia.org/?curid='+item.pageid" target="_blank">
+            <h3>{{item.title}}</h3>
+            <p>{{item.extract}}</p>
+          </a>
         </li>
       </ul>
   </div>
@@ -112,6 +114,25 @@ export default {
 .searchArea.active .glass {
   visibility: visible;
   color: #fff;
+}
+.searchList {
+  width: 80%;
+  margin: 0 auto;
+}
+.searchList li {
+  list-style: none;
+  padding: 15px 30px 5px 30px;
+  background: #E7E7E8;
+  margin-bottom: 10px;
+}
+.searchList li a {
+  text-decoration: none;
+  color: #333;
+  text-align: left
+}
+.searchList li:hover {
+  border-left: 5px solid #D96F32;
+  margin-left: -5px;
 }
 @keyframes changeGlass {
   from {width: 32px}
