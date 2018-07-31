@@ -1,94 +1,39 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <div class="">
+      <button @click="decline(workTime)">-</button>
+      <input type="text" v-model="workTime">
+      <button @click="increas(workTime)">+</button>
+    </div>
+    <div class="circle">
+      <div class="solidCircle">
+
+      </div>
+        <div class="inner">
+          {{workTime}}
+        </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
-  data () {
+  data(){
     return {
-      msg: 'Welcome to Your Vue.js App'
+      workTime: 32,
+      breakTime: 10
+    }
+  },
+  methods: {
+    decline(obj) {
+      var newVal = obj-1;
+      this.$set(this,'workTime',newVal)
+    },
+    increas(obj){
+      var newVal = obj+1;
+      this.$set(this,'workTime',newVal)
     }
   }
 }
@@ -96,18 +41,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.circle {
+  border: 3px solid #99CC00;
+  width:300px;height: 300px;
+  margin: 0 auto;
+  position: relative;
+  /* border-radius: 50%; */
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.circle .solidCircle {
+  width: 250px;height: 250px;
+  border: 2px solid red;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;bottom: 0;left: 0;right: 0;
+  margin: auto;
+  z-index: 1;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.circle .inner {
+  box-sizing: border-box;
+  height: 10px;width: 100%;
+  background: #99CC00;
+  position: absolute;
+  bottom: 0
 }
 </style>
