@@ -8,8 +8,8 @@
     <div class="circle" @click="startTime">
       <div class="solidCircle">
         <h1>session</h1>
-        <span v-if="start">hms</span>
-        <span v-else>{{hour}}:{{minute}}:{{second}}</span>
+        <span v-if="start">{{time}}</span>
+        <span v-else>hms</span>
       </div>
       <div class="inner"></div>
     </div>
@@ -21,24 +21,14 @@
 export default {
   name: 'HelloWorld',
   computed:{
-    hour(){
-      var leftSec = this.workTime * 60 - 1;
-      this.$set(this,'leftSecond',leftSec);
-      var leftHour = Math.floor(leftSec/3600);
-      this.$set(this,'leftHour',leftHour);
-      return leftHour;
-    },
-    minute(){
-      var leftMin = Math.floor((this.leftSecond - this.leftHour*3600)/60);
-      var leftSec = this.leftSecond - leftMin*60;
-      this.$set(this,'leftSecond',leftSec);
-      this.$set(this,'leftMin',leftMin);
-      return leftMin
-    },
-    second(){
-      if(this.leftSecond < 60){
-        return this.leftSecond
-      }
+    time(){
+      var leftSec = this.workTime * 60 - 1;//总时间
+      var leftHour = Math.floor(leftSec/3600);//包含小时
+
+      var leftMin = Math.floor((leftSec - leftHour*3600)/60);//包含分钟
+      leftSec = leftSec - leftHour*3600 - leftMin*60; //包含秒
+
+      return `${leftHour}:${leftMin}:${leftSec}`
     }
   },
   data(){
