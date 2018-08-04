@@ -8,10 +8,11 @@
     <div class="circle" @click="startTime">
       <div class="solidCircle">
         <h1>session</h1>
-        <span v-if="start">{{time}}</span>
-        <span v-else>hms</span>
+        <span v-if="start">{{resTime}}</span>
+        <span v-else>{{workTime}}</span>
+
       </div>
-      <div class="inner"></div>
+      <div class="inner" :style="{height:height+'%'}"></div>
     </div>
 
   </div>
@@ -20,38 +21,66 @@
 <script>
 export default {
   name: 'HelloWorld',
-  computed:{
-    time(){
-      var leftSec = this.workTime * 60 - 1;//总时间
-      var leftHour = Math.floor(leftSec/3600);//包含小时
-
-      var leftMin = Math.floor((leftSec - leftHour*3600)/60);//包含分钟
-      leftSec = leftSec - leftHour*3600 - leftMin*60; //包含秒
-
-      return `${leftHour}:${leftMin}:${leftSec}`
+  watch: {
+    workTime:function(val){
+      var timeVal = val*60;
+      this.$set(this,'leftTotalTime',timeVal)
+      this.calcuTime()
     }
   },
   data(){
     return {
       start: false,
-      workTime: 32,
+      pause: true,
+      workTime: 1,
       breakTime: 10,
-      leftHour: 0,
-      leftMin: 0,
-      leftSecond: 0
+      leftTotalTime: 59,
+      resTime: "1:00",
+      height:0
     }
   },
   methods: {
     decline(obj) {
+      if(!this.pause){
+        return
+      }
       var newVal = obj-1;
       this.$set(this,'workTime',newVal)
+      this.$set(this,'start',false)
     },
     increas(obj){
+      if(!this.pause){
+        return
+      }
       var newVal = obj+1;
       this.$set(this,'workTime',newVal)
+      this.$set(this,'start',false)
     },
     startTime(){
-      this.$set(this,'start',true)
+      this.$set(this,'start',true);
+      this.$set(this,'pause',!this.pause);
+
+        var timer = setInterval(() => {
+          if(this.leftTotalTime<0 || this.pause){
+            clearInterval(timer);
+            return
+          }
+          this.calcuTime();
+          this.calcuHeight(this.workTime)
+          this.$set(this,'leftTotalTime',this.leftTotalTime-1)
+        },1000)
+    },
+    calcuTime(){
+      var parm = this.leftTotalTime
+      var leftHour = Math.floor(parm/3600);//包含小时
+      var leftMin = Math.floor((parm - leftHour*3600)/60);//包含分钟
+      var leftSec = parm - leftHour*3600 - leftMin*60; //包含秒
+
+      var resTime = leftHour>0?`${leftHour}:${leftMin}:${leftSec}`:`${leftMin}:${leftSec}`;
+      this.$set(this,'resTime',resTime)
+    },
+    calcuHeight(originalTime){
+      this.$set(this,'height',((originalTime*60-this.leftTotalTime)/(originalTime*60))*100)
     }
   }
 }
@@ -81,7 +110,7 @@ export default {
 }
 .circle .inner {
   box-sizing: border-box;
-  height: 100px;width: 100%;
+  width: 100%;
   background: #99CC00;
   position: absolute;
   bottom: 0
