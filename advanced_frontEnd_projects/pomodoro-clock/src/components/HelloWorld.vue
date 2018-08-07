@@ -1,23 +1,24 @@
 <template>
   <div class="hello">
-    <div class="timeSelect">
-      <p>session length</p>
-      <button @click="decline(workTime)">-</button>
-      <span v-model="workTime">{{workTime}}</span>
-      <button @click="increas(workTime)">+</button>
-    </div>
+    <h1 class="title">freecodecamp</h1>
     <div class="timeSelect">
       <p>break length</p>
       <button @click="decline(breakTime)">-</button>
       <span v-model="breakTime">{{breakTime}}</span>
       <button @click="increas(breakTime)">+</button>
     </div>
+    <div class="timeSelect">
+      <p>session length</p>
+      <button @click="decline(workTime)">-</button>
+      <span v-model="workTime">{{workTime}}</span>
+      <button @click="increas(workTime)">+</button>
+    </div>
     <div class="circle" @click="startTime">
       <div class="solidCircle">
-        <h1>session</h1>
+        <h1 v-if="breakT">Break</h1>
+        <h1 v-else>Session</h1>
         <span v-if="start">{{resTime}}</span>
         <span v-else>{{workTime}}</span>
-
       </div>
       <div class="inner" :style="{height:height+'%',background:breakT?'#FF4444':'#99CC00'}"></div>
     </div>
@@ -55,6 +56,7 @@ export default {
       }
       var newVal = obj-1;
       this.$set(this,'workTime',newVal)
+      this.$set(this,'originalTime',newVal)
       this.$set(this,'start',false)
     },
     increas(obj){
@@ -63,6 +65,7 @@ export default {
       }
       var newVal = obj+1;
       this.$set(this,'workTime',newVal)
+      this.$set(this,'originalTime',newVal)
       this.$set(this,'start',false)
     },
     startTime(){
@@ -129,6 +132,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1{font-weight: normal;}
+.title {
+  font-family: '微软雅黑'
+}
 .timeSelect {
   display: inline-block;
 }
@@ -167,6 +174,13 @@ export default {
   top: 0;bottom: 0;left: 0;right: 0;
   margin: auto;
   z-index: 1;
+}
+.circle .solidCircle h1{
+  font-size: 55px;
+  margin-bottom: 85px
+}
+.circle .solidCircle span{
+  font-size: 55px
 }
 .circle .inner {
   box-sizing: border-box;
