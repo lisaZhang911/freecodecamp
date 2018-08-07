@@ -1,9 +1,16 @@
 <template>
   <div class="hello">
-    <div class="">
+    <div class="timeSelect">
+      <p>session length</p>
       <button @click="decline(workTime)">-</button>
-      <input type="text" v-model="workTime">
+      <span v-model="workTime">{{workTime}}</span>
       <button @click="increas(workTime)">+</button>
+    </div>
+    <div class="timeSelect">
+      <p>break length</p>
+      <button @click="decline(breakTime)">-</button>
+      <span v-model="breakTime">{{breakTime}}</span>
+      <button @click="increas(breakTime)">+</button>
     </div>
     <div class="circle" @click="startTime">
       <div class="solidCircle">
@@ -12,7 +19,7 @@
         <span v-else>{{workTime}}</span>
 
       </div>
-      <div class="inner" :style="{height:height+'%'}"></div>
+      <div class="inner" :style="{height:height+'%',background:breakT?'#FF4444':'#99CC00'}"></div>
     </div>
 
   </div>
@@ -32,11 +39,13 @@ export default {
     return {
       start: false,
       pause: true,
+      breakT: false,
       workTime: 1,
-      breakTime: 10,
+      breakTime: 1,
       leftTotalTime: 59,
       resTime: "1:00",
-      height:0
+      height: 0,
+      originalTime: 1
     }
   },
   methods: {
@@ -59,19 +68,13 @@ export default {
     startTime(){
       this.$set(this,'start',true);
       this.$set(this,'pause',!this.pause);
-
-        var timer = setInterval(() => {
-          if(this.leftTotalTime<0 || this.pause){
-            clearInterval(timer);
-            return
-          }
-          this.calcuTime();
-          this.calcuHeight(this.workTime)
-          this.$set(this,'leftTotalTime',this.leftTotalTime-1)
-        },1000)
+      if(this.breakT){
+        this.breakClock()
+      } else {
+        this.workClock()
+      }
     },
-    calcuTime(){
-      var parm = this.leftTotalTime
+    calcuTime(parm){
       var leftHour = Math.floor(parm/3600);//包含小时
       var leftMin = Math.floor((parm - leftHour*3600)/60);//包含分钟
       var leftSec = parm - leftHour*3600 - leftMin*60; //包含秒
@@ -81,6 +84,44 @@ export default {
     },
     calcuHeight(originalTime){
       this.$set(this,'height',((originalTime*60-this.leftTotalTime)/(originalTime*60))*100)
+    },
+    workClock(){
+      this.$set(this,'breakT',false);
+      var timer = setInterval(() => {
+        if(this.leftTotalTime<0){
+          clearInterval(timer);
+            this.$set(this,'leftTotalTime',this.breakTime*60-1)
+            this.$set(this,'originalTime',this.breakTime);
+            this.breakClock()
+          return
+        }
+        if(this.pause){
+          clearInterval(timer);
+          return
+        }
+        this.calcuTime(this.leftTotalTime);
+        this.calcuHeight(this.originalTime)
+        this.$set(this,'leftTotalTime',this.leftTotalTime-1)
+      },1000)
+    },
+    breakClock(){
+      this.$set(this,'breakT',true);
+      var timer = setInterval(() => {
+        if(this.leftTotalTime<0){
+          clearInterval(timer);
+            this.$set(this,'leftTotalTime',this.workTime*60-1)
+            this.$set(this,'originalTime',this.workTime);
+            this.workClock()
+          return
+        }
+        if(this.pause){
+          clearInterval(timer);
+          return
+        }
+        this.calcuTime(this.leftTotalTime);
+        this.calcuHeight(this.originalTime)
+        this.$set(this,'leftTotalTime',this.leftTotalTime-1)
+      },1000)
     }
   }
 }
@@ -88,6 +129,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.timeSelect {
+  display: inline-block;
+}
+.timeSelect p {
+  font-size: 12px;
+  text-transform: uppercase
+}
+.timeSelect button,
+.timeSelect span {
+  font-size: 20px;
+  background: none;
+  border: 0;
+  color: #fff
+}
+.timeSelect span {
+  font-size: 32px;
+  text-align: center;
+  padding: 0 5px
+}
 .circle {
   border: 3px solid #99CC00;
   width:300px;height: 300px;
@@ -111,7 +171,6 @@ export default {
 .circle .inner {
   box-sizing: border-box;
   width: 100%;
-  background: #99CC00;
   position: absolute;
   bottom: 0
 }

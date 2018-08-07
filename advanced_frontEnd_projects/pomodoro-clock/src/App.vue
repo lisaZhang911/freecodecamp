@@ -22,7 +22,7 @@ html,body {
   color: #fff;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Open Sans, Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
