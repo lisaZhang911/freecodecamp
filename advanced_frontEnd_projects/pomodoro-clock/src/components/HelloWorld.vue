@@ -132,14 +132,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+@font-face {
+  font-family: pacifico;
+  src: url('../assets/Pacifico.ttf')
+}
 h1{font-weight: normal;}
 .title {
-  font-family: '微软雅黑'
+  font-family: 'pacifico';
+  font-size: 60px
 }
 .timeSelect {
   display: inline-block;
 }
 .timeSelect p {
+  font-family: Open Sans, Arial;
   font-size: 12px;
   text-transform: uppercase
 }
